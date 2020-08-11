@@ -50,6 +50,26 @@ class AddrEntry():
 		print(f"| Zip: {self.zipCode.ljust(36)}|")
 		print("+------------------------------------------+")
 
-entry = AddrEntry('James', 'Taylor', 'kyu@gmail.com', '256-555-5555', '100 oak street', 'Opelika', 'AL', '36803')
+# main program interaction
+def getUserInput():
+	print("Address Book Program\n")
+	userInput = input("What would you like to do?(? for help) ")
+	if userInput == '?':
+		print("(C)reate new entry")
+		print("(D)elete existing entry")
+		print("(R)etrieve existing entry")
+		print("(U)pdate existing entry")
+		print("(?) Opens this menu")
+	elif userInput == 'C':
+		print("Adding a new entry")
+		addr = AddrEntry(input('First Name: '), input('Last Name: '), input('Email Address: '), input('Phone Number: '), input('Street Address: '), input('City: '), input('State: '), input('Zip Code: '))
+	elif userInput == 'D':
+		pass
+	elif userInput == 'R':
+		pass
+	elif userInput == 'U':
+		pass
+	else:
+		print("Invalid Input")
 
-entry.printEntry()
+getUserInput()
