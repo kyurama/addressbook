@@ -1,5 +1,5 @@
 # console based address book, able to add, retrieve, and update entries.
-# saves entries in a .txt
+# saves entries in a sqlite db
 
 import sqlite3
 import os
@@ -58,16 +58,17 @@ def create_connection(db_file):
 
 	try:
 		conn = sqlite3.connect(db_file)
-		print(sqlite3.version)
+		print("Sqlite DB Found, Sqlite version " + sqlite3.version)
 	except Error as e:
 		print(e)
 	finally:
 		if conn:
 			conn.close()
 
+def write_to_db()
+
 # main program interaction
 def get_user_input():
-	print("Address Book Program\n")
 	userInput = input("What would you like to do?(? for help) ").upper()
 	while userInput != 'Q':
 		if userInput == '?':
@@ -88,5 +89,9 @@ def get_user_input():
 			pass
 		else:
 			print("Invalid Input")
+			userInput = input("What would you like to do?(? for help) ").upper()
 
+print("Address Book Program\n")
 create_connection(os.path.expanduser(r"~/Documents/addresses.db"))
+
+get_user_input()
