@@ -1,7 +1,9 @@
 # console based address book, able to add, retrieve, and update entries.
 # saves entries in a .txt
 
-import io
+import sqlite3
+import os
+from sqlite3 import Error
 
 class AddrEntry():
 	def __init__(self, firstName, lastName, email, phone, streetAddr, city, state, zipCode):
@@ -14,31 +16,31 @@ class AddrEntry():
 		self.state = state
 		self.zipCode = zipCode
 
-	def setFirstName(self, firstName):
+	def set_first_name(self, firstName):
 		self.firstName = firstName
 
-	def setLastName(self, lastName):
+	def set_last_name(self, lastName):
 		self.lastName = lastName
 
-	def setEmail(self, email):
+	def set_email(self, email):
 		self.email = email
 
-	def setPhone(self, phone):
+	def set_phone(self, phone):
 		self.phone = phone
 
-	def setstreetAddr(self, streetAddr):
+	def set_street_addr(self, streetAddr):
 		self.streetAddr = streetAddr
 
-	def setCity(self, city):
+	def set_city(self, city):
 		self.city = city
 
-	def setState(self, state):
+	def set_state(self, state):
 		self.state = state
 
-	def setZip(self, zipCode):
+	def set_zip(self, zipCode):
 		self.zipCode = zipCode
 
-	def printEntry(self):
+	def print_entry(self):
 		print("+------------------------------------------+")
 		fullName = self.firstName + ' ' + self.lastName
 		cityState = self.city + ', ' + self.state
@@ -50,26 +52,41 @@ class AddrEntry():
 		print(f"| Zip: {self.zipCode.ljust(36)}|")
 		print("+------------------------------------------+")
 
-# main program interaction
-def getUserInput():
-	print("Address Book Program\n")
-	userInput = input("What would you like to do?(? for help) ")
-	if userInput == '?':
-		print("(C)reate new entry")
-		print("(D)elete existing entry")
-		print("(R)etrieve existing entry")
-		print("(U)pdate existing entry")
-		print("(?) Opens this menu")
-	elif userInput == 'C':
-		print("Adding a new entry")
-		addr = AddrEntry(input('First Name: '), input('Last Name: '), input('Email Address: '), input('Phone Number: '), input('Street Address: '), input('City: '), input('State: '), input('Zip Code: '))
-	elif userInput == 'D':
-		pass
-	elif userInput == 'R':
-		pass
-	elif userInput == 'U':
-		pass
-	else:
-		print("Invalid Input")
+def create_connection(db_file):
+	""" Create DB Conneciton """
+	conn = None
 
-getUserInput()
+	try:
+		conn = sqlite3.connect(db_file)
+		print(sqlite3.version)
+	except Error as e:
+		print(e)
+	finally:
+		if conn:
+			conn.close()
+
+# main program interaction
+def get_user_input():
+	print("Address Book Program\n")
+	userInput = input("What would you like to do?(? for help) ").upper()
+	while userInput != 'Q':
+		if userInput == '?':
+			print("(C)reate new entry")
+			print("(D)elete existing entry")
+			print("(Q)uit the program")
+			print("(R)etrieve existing entry")
+			print("(U)pdate existing entry")
+			print("(?) Opens this menu")
+		elif userInput == 'C':
+			print("Adding a new entry")
+			addr = AddrEntry(input('First Name: '), input('Last Name: '), input('Email Address: '), input('Phone Number: '), input('Street Address: '), input('City: '), input('State: '), input('Zip Code: '))
+		elif userInput == 'D':
+			pass
+		elif userInput == 'R':
+			pass
+		elif userInput == 'U':
+			pass
+		else:
+			print("Invalid Input")
+
+create_connection(os.path.expanduser(r"~/Documents/addresses.db"))
